@@ -5,6 +5,8 @@ as possible.
 """
 
 from flask import Flask
+from scraper import get_raw_http, parse_raw_table
+
 app = Flask(__name__)
 
 
@@ -12,8 +14,13 @@ app = Flask(__name__)
 def class_table():
     """ Returns the full course table
     """
-    # TODO
-    return "TODO"
+    print("retrieving http...")
+    txt = get_raw_http()
+    print("retrieved!")
+    print("parsing table...")
+    table_txt = parse_raw_table(txt)
+    print("parsed!")
+    return str(table_txt)
 
 
 if __name__ == "__main__":
