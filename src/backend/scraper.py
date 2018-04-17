@@ -9,10 +9,17 @@ import requests
 
 def get_raw_http() -> str:
     """ retrieves the http source from the course website
+    returns: raw http souce from timetable page
     """
-    payload = "distribradio=alldistribs&depts=no_value&periods=no_value&distribs=no_value&distribs_i=no_value&distribs_wc=no_value&pmode=public&term=&levl=&fys=n&wrt=n&pe=n&review=n&crnl=no_value&classyear=2008&searchtype=Subject Area(s)&termradio=allterms&terms=no_value&subjectradio=allsubjects&hoursradio=allhours&sortorder=dept"
-    req = requests.post("http://oracle-www.dartmouth.edu/dart/groucho/timetable.display_courses",
-                        data=payload)
+    payload = "distribradio=alldistribs&depts=no_value&periods=no_value&" + \
+    "distribs=no_value&distribs_i=no_value&distribs_wc=no_value&" + \
+    "pmode=public& term=&levl=&fys=n&wrt=n&pe=n&review=n&crnl=no_value&classyear=2008& " + \
+    "searchtype=Subject Area(s)&termradio=allterms&terms=no_value&" + \
+    "subjectradio=allsubjects&hoursradio=allhours&sortorder=dept"
+    req = requests.post(
+        "http://oracle-www.dartmouth.edu/dart/groucho/" +
+        "timetable.display_courses",
+        data=payload)
     return req.text
 
 
