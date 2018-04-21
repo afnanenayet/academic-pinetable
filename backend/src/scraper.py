@@ -4,6 +4,7 @@ academic timetable and parsing the table.
 
 from bs4 import BeautifulSoup
 from tqdm import tqdm
+import pandas as pd
 import requests
 
 
@@ -23,30 +24,32 @@ def parse_raw_table(raw_txt: str) -> list:
     """ parses the raw HTTP into a pretty table
     """
     soup = BeautifulSoup(raw_txt, "lxml")
-
-    # find the right table
-    final_table = None
-
     divs = soup.find_all("div", {"class": "data-table"})
-    print(f"len divs: {len(divs)}")
-
-    div = divs[0]
+    div = divs[0]  # there should only be one div with this name
     table = div.find("table")
-    ltable = []
-    children = div.contents
-    print(f"len div->children: {len(children)}")
-    row = []
 
-    for child in table:
-        print(f"child name: {child.name}")
-        if child.name == "td" and child != "[]":
-            row.append(str(child.contents))
+    # get length of each row so we can easily split rows
+    # when parsing the table
+    # header = table.find("tr")[0]
+    ltable: list = []
+    header_names = [th.contents[0] for th in table.find_all("th")]
+    header_len = len(header_names)
+    row: list = []
 
-        # finish row, reset temp row variable
-        if child.name == "tr":
+    for i, child in enumerate(table):
+        # if child.name == "td" and child != "[]":
+        #     row.append(str(child.contents))
+        if i % header_len == 0 and i != 0:
+            if len(row) != 19:
+                print("error: row should have 19 elements, row has " +
+                      f"{len(row)} elements")
             ltable.append(row)
             row = []
 
-    ltable.append(row)
-    # print(ltable)
-    return ltable
+        if child.name == "td":
+            row.append(str(child.contents[0]))
+        else:
+            row.append(str(child))
+
+    df = pd.DataFrame(ltable, columns=header_names, dtype=object)
+    return df

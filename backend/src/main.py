@@ -6,6 +6,7 @@ as possible.
 
 from flask import Flask
 from scraper import get_raw_http, parse_raw_table
+import pandas as pd
 
 app = Flask(__name__)
 
