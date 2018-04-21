@@ -46,10 +46,12 @@ def parse_raw_table(raw_txt: str) -> list:
             ltable.append(row)
             row = []
 
+        # for now, put in blank placeholders to keep consistent with the
+        # expected length of each row
         if child.name == "td":
             row.append(str(child.contents[0]))
         else:
-            row.append(str(child))
+            row.append("")
 
     df = pd.DataFrame(ltable, columns=header_names, dtype=object)
     return df
