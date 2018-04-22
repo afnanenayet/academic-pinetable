@@ -49,7 +49,12 @@ def parse_raw_table(raw_txt: str) -> list:
         # for now, put in blank placeholders to keep consistent with the
         # expected length of each row
         if child.name == "td":
-            row.append(str(child.contents[0]))
+            links = child.find_all("a", href=True)
+
+            if len(links) > 0:
+                row.append("")
+            else:
+                row.append(str(child.contents[0]))
         else:
             row.append("")
 
