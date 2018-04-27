@@ -1,5 +1,7 @@
 # Lone Pinetable
 
+[![Build Status](https://travis-ci.org/afnanenayet/academic-pinetable.svg?branch=master)](https://travis-ci.org/afnanenayet/academic-pinetable)
+
 ## Synopsis
 
 This is a revamp of the Dartmouth academic timetable, because it's ugly and
